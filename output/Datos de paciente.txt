@@ -1,7 +1,0 @@
-*** PACIENTE 2 ***
-Nombre: luis
-Apellido: carvajal
-Edad: 19
-Direccion: cvb
-Provincia: cvb
-Region: cvb
