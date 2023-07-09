@@ -44,6 +44,7 @@ void exportar_paciente(int n){
     }
     printf("\nIngrese el numero de paciente a exportar: ");
     scanf("%d", &p_export);
+    p_export = p_export - 1;
     if (archivo == NULL){
         printf("Error al abrir el archivo\n");
     }else{
