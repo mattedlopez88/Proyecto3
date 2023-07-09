@@ -35,38 +35,21 @@ void añadir_paciente(int *i){
 }
 
 void imprimir_pacientes(int *i){
-    char ch, chx;
-    int size;
+    char chx;
 
     FILE *archivo;
-    archivo = fopen("Proyecto2/output/datos_pacientes.txt", "r");
+    archivo = fopen("datos_pacientes.txt", "r");
+
     if (archivo == NULL){
-        printf("Error al abrir el archivo\n");
+        printf("El archivo no ha sido creado\n");
     }else{
-        fseek(archivo, 0, SEEK_END);
-        size = ftell(archivo);
-        if (0 == size) {
-            printf("No hay pacientes registrados\n");
-            for ( int j = 0 ; j < *i; j++){
-                printf("\n");
-                for (int k = 0; k < 50; k++){
-                    ch = paciente[j].nombre[k];
-                    putchar(toupper(ch));
-                }
-                printf("Covid: %s\n", paciente[j].covid);
-                printf("Edad: %d\n", paciente[j].edad);
-                printf("Direccion: %s", paciente[j].direccion);
-                printf("Provincia: %s", paciente[j].provincia);
-                printf("Region: %s", paciente[j].region);
-            }
-        }else{
-            do {
-            chx = fgetc(archivo);
-            printf("%c", chx);
-            } while (chx != EOF); 
-        }
+        do {
+        chx = fgetc(archivo);
+        printf("%c", chx);
+        } while (chx != EOF); 
     }     
     fclose(archivo);
+    
 }
 
 void exportar_paciente(int *i){
@@ -156,14 +139,27 @@ void eliminar_paciente(int *i){
 
 void guardar(int *i){
     FILE *archivo;
-    archivo = fopen("datos_pacientes.txt", "wb");
-    for (int j = 0; j < *i; j++){
-        fprintf(archivo, "*** PACIENTE %d ***\n", j+1);
-        fprintf(archivo, "Nombre: %s", paciente[j].nombre);
-        fprintf(archivo,"Edad: %d\n", paciente[j].edad);
-        fprintf(archivo, "Direccion: %s", paciente[j].direccion);
-        fprintf(archivo, "Provincia: %s", paciente[j].provincia);
-        fprintf(archivo,"Region: %s", paciente[j].region);
+    archivo = fopen("datos_pacientes.txt", "r");
+    if (archivo == NULL){
+        archivo = fopen("datos_pacientes.txt", "w");
+        for (int j = 0; j < *i; j++){
+            fprintf(archivo, "\n*** PACIENTE %d ***\n", j+1);
+            fprintf(archivo, "Nombre: %s", paciente[j].nombre);
+            fprintf(archivo,"Edad: %d\n", paciente[j].edad);
+            fprintf(archivo, "Direccion: %s", paciente[j].direccion);
+            fprintf(archivo, "Provincia: %s", paciente[j].provincia);
+            fprintf(archivo,"Region: %s", paciente[j].region);
+        }
+    }else{
+        archivo = fopen("datos_pacientes.txt", "a");
+        for (int j = 0; j < *i; j++){
+            fprintf(archivo, "\n*** PACIENTE %d ***\n", j+1);
+            fprintf(archivo, "Nombre: %s", paciente[j].nombre);
+            fprintf(archivo,"Edad: %d\n", paciente[j].edad);
+            fprintf(archivo, "Direccion: %s", paciente[j].direccion);
+            fprintf(archivo, "Provincia: %s", paciente[j].provincia);
+            fprintf(archivo,"Region: %s", paciente[j].region);
+        }
     }
     fclose(archivo);
     printf("Datos guardados con exito\n");
