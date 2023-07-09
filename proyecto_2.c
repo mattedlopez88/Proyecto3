@@ -35,11 +35,26 @@ void añadir_paciente(int *i){
 }
 
 void imprimir_pacientes(int *i){
-    char chx;
+    char ch;
 
+    for ( int j = 0 ; j < *i; j++){
+        printf("\n");
+            for (int k = 0; k < 50; k++){
+            ch = paciente[j].nombre[k];
+            putchar(toupper(ch));
+        }
+        printf("Covid: %s\n", paciente[j].covid);
+        printf("Edad: %d\n", paciente[j].edad);
+        printf("Direccion: %s", paciente[j].direccion);
+        printf("Provincia: %s", paciente[j].provincia);
+        printf("Region: %s", paciente[j].region);
+    }
+}
+
+void leer_base_datos(void){
     FILE *archivo;
     archivo = fopen("datos_pacientes.txt", "r");
-
+    char chx;
     if (archivo == NULL){
         printf("El archivo no ha sido creado\n");
     }else{
@@ -49,7 +64,6 @@ void imprimir_pacientes(int *i){
         } while (chx != EOF); 
     }     
     fclose(archivo);
-    
 }
 
 void exportar_paciente(int *i){
@@ -138,23 +152,35 @@ void eliminar_paciente(int *i){
 }
 
 void guardar(int *i){
+char ch, cap;
     FILE *archivo;
     archivo = fopen("datos_pacientes.txt", "r");
     if (archivo == NULL){
         archivo = fopen("datos_pacientes.txt", "w");
         for (int j = 0; j < *i; j++){
-            fprintf(archivo, "\n*** PACIENTE %d ***\n", j+1);
-            fprintf(archivo, "Nombre: %s", paciente[j].nombre);
+
+            fprintf(archivo, "\n");
+            for (int k = 0; k < 50; k++){
+                ch = paciente[j].nombre[k];
+                cap = toupper(ch);
+                fprintf(archivo, "%c", cap);
+            }
+            fprintf(archivo,"\nCovid: %s\n", paciente[j].covid);
             fprintf(archivo,"Edad: %d\n", paciente[j].edad);
-            fprintf(archivo, "Direccion: %s", paciente[j].direccion);
-            fprintf(archivo, "Provincia: %s", paciente[j].provincia);
+            fprintf(archivo,"Direccion: %s", paciente[j].direccion);
+            fprintf(archivo,"Provincia: %s", paciente[j].provincia);
             fprintf(archivo,"Region: %s", paciente[j].region);
         }
     }else{
         archivo = fopen("datos_pacientes.txt", "a");
         for (int j = 0; j < *i; j++){
-            fprintf(archivo, "\n*** PACIENTE %d ***\n", j+1);
-            fprintf(archivo, "Nombre: %s", paciente[j].nombre);
+            fprintf(archivo, "\n");
+            for (int k = 0; k < 50; k++){
+                ch = paciente[j].nombre[k];
+                cap = toupper(ch);
+                fprintf(archivo, "%c", cap);
+            }
+            fprintf(archivo,"\nCovid: %s\n", paciente[j].covid);
             fprintf(archivo,"Edad: %d\n", paciente[j].edad);
             fprintf(archivo, "Direccion: %s", paciente[j].direccion);
             fprintf(archivo, "Provincia: %s", paciente[j].provincia);
@@ -169,12 +195,13 @@ int menu(int *i){
     int opcion;
     printf("\n***************** MENU *****************\n");
     printf("1. Añadir paciente\n");
-    printf("2. Ver datos de todos los pacientes\n");
-    printf("3. Exportar datos de un paciente en .txt\n");
-    printf("4. Editar datos de paciente\n");
-    printf("5. Eliminar paciente\n");
-    printf("6. Guardar en base de datos\n");
-    printf("7. Salir\n");
+    printf("2. Ver datos de todos los pacientes recientemente ingresados\n");
+    printf("3. Leer base de datos de pacientes\n");
+    printf("4. Exportar datos de un paciente en .txt\n");
+    printf("5. Editar datos de paciente\n");
+    printf("6. Eliminar paciente\n");
+    printf("7. Guardar en base de datos\n");
+    printf("8. Salir\n");
     printf("\nIngrese una opcion: ");
     scanf("%d", &opcion);
     getchar();
@@ -186,18 +213,21 @@ int menu(int *i){
         imprimir_pacientes(i);
         break;
     case 3:
-        exportar_paciente(i);
+        leer_base_datos();
         break;
     case 4:
-        editar_paciente(i);
+        exportar_paciente(i);
         break;
     case 5:
-        eliminar_paciente(i);
+        editar_paciente(i);
         break;
     case 6:
-        guardar(i);
+        eliminar_paciente(i);
         break;
     case 7:
+        guardar(i);
+        break;
+    case 8:
         return 0;
     default:
         printf("Opcion no valida\n");
