@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 
 #define datos 100
@@ -10,11 +11,13 @@ struct paciente {
 };
 
 void ingresarPacientes(struct paciente pacientes[], int personas) {
-     FILE *archivo;
+    FILE *archivo;
     archivo = fopen("Datos Pacientes.txt", "w");
-    printf("Ingrese el número de personas con Covid:\n");
-    scanf("%d", &personas);
-    getchar(); 
+    if (archivo == NULL) {
+        printf("No se pudo abrir el archivo.\n");
+        return;
+    }
+
     for (int i = 0; i < personas; i++) {
         printf("\nIngrese el nombre del paciente:\n");
         fgets(pacientes[i].nombre, sizeof(pacientes[i].nombre), stdin);
@@ -27,25 +30,20 @@ void ingresarPacientes(struct paciente pacientes[], int personas) {
 
         printf("\nIngrese la región del paciente:\n");
         fgets(pacientes[i].region, sizeof(pacientes[i].region), stdin);
-         fprintf(archivo, "Paciente:\n");
-    
+
+        fprintf(archivo, "Paciente:\n");
+        fprintf(archivo, "%d            %s ; %s ; %s ; %s", i + 1, pacientes[i].nombre, pacientes[i].ciudad,
+                pacientes[i].provincia, pacientes[i].region);
     }
-    
-     fprintf(archivo, "Paciente:\n");
-    for (int i = 0; i < personas; i++) {
-        fprintf(archivo, "%d            %s ; %s ; %s ; %s", i + 1, pacientes[i].nombre, pacientes[i].ciudad, pacientes[i].provincia, pacientes[i].region);
-    }
+
     fclose(archivo);
-
+    printf("Datos guardados con éxito en el archivo 'Datos Pacientes.txt'.\n");
 }
-
-
 
 void cantidadpacientes(struct paciente pacientes[], int personas) {
     int ciudad[datos] = {0};
     int provincia[datos] = {0};
     int region[datos] = {0};
-    
 
     for (int i = 0; i < personas; i++) {
         for (int j = 0; j < personas; j++) {
@@ -66,7 +64,7 @@ void cantidadpacientes(struct paciente pacientes[], int personas) {
         printf("%s: %d\n", pacientes[i].ciudad, ciudad[i]);
     }
 
-    printf("\n Pacientes por cada provincia ingresada:\n");
+    printf("\nPacientes por cada provincia ingresada:\n");
     for (int i = 0; i < personas; i++) {
         printf("%s: %d\n", pacientes[i].provincia, provincia[i]);
     }
@@ -75,38 +73,43 @@ void cantidadpacientes(struct paciente pacientes[], int personas) {
     for (int i = 0; i < personas; i++) {
         printf("%s: %d\n", pacientes[i].region, region[i]);
     }
-    }
-    
-
+}
 
 int main() {
     struct paciente pacientes[datos];
     int personas;
     int opcion;
 
-    
-    printf("\n***************** Bienvenido   *****************\n");
-     printf("\nEscoge una opciòn:\n");
+    printf("\n***************** Bienvenido *****************\n");
+    printf("\nEscoge una opción:\n");
     printf("1. Añadir paciente\n");
-    printf("2. Mostrar cantidad de pacientes en cada regiòn,provincia y ciudad ingresados\n");
-    printf("8. Salir\n");
-    printf("\nEscoge una opciòn:\n");
+    printf("2. Mostrar cantidad de pacientes en cada región, provincia y ciudad ingresados\n");
+    printf("3. Salir\n");
+    printf("\nEscoge una opción:\n");
     scanf("%d", &opcion);
     getchar();
+
     switch (opcion) {
         case 1:
-            ingresarPacientes;
+            printf("Ingrese el número de personas con Covid:\n");
+            scanf("%d", &personas);
+            getchar();
+            ingresarPacientes(pacientes, personas);
             break;
         case 2:
-         cantidadpacientes;
+            cantidadpacientes(pacientes, personas);
             break;
         case 3:
             return 0;
         default:
-            printf("Opcion no valida\n");
+            printf("Opcion no válida\n");
             break;
     }
-    
+
+    return 0;
+}
+
+
 
     
 
