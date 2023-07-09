@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #define datos 100
 
     struct paciente {
@@ -40,9 +41,38 @@
     }
     fclose(archivo);
 
-  
+   int ciudad[datos] = {0};
+    int provincia[datos] = {0};
+    int region[datos] = {0};
+
+    for (int i = 0; i < personas; i++) {
+        for (int j = 0; j < personas; j++) {
+            if (strcmp(pacientes[i].ciudad, pacientes[j].ciudad) == 0) {
+                ciudad[i]++;
+            }
+            if (strcmp(pacientes[i].provincia, pacientes[j].provincia) == 0) {
+                provincia[i]++;
+            }
+            if (strcmp(pacientes[i].region, pacientes[j].region) == 0) {
+                region[i]++;
+            }
+        }
+    }
+
+    printf("\nPacientes por cada ciudad ingresada:\n");
+    for (int i = 0; i < personas; i++) {
+        printf("%s: %d\n", pacientes[i].ciudad, ciudad[i]);
+    }
+
+    printf("\n Pacientes por cada provincia ingresada:\n");
+    for (int i = 0; i < personas; i++) {
+        printf("%s: %d\n", pacientes[i].provincia, provincia[i]);
+    }
+
+    printf("\nPacientes por cada región ingresada:\n");
+    for (int i = 0; i < personas; i++) {
+        printf("%s: %d\n", pacientes[i].region, region[i]);
+    }
     
    
     return 0;
-}
-
