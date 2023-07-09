@@ -81,34 +81,35 @@ int main() {
     int opcion;
 
     printf("\n***************** Bienvenido *****************\n");
-    printf("\nEscoge una opción:\n");
-    printf("1. Añadir paciente\n");
-    printf("2. Mostrar cantidad de pacientes en cada región, provincia y ciudad ingresados\n");
-    printf("3. Salir\n");
-    printf("\nEscoge una opción:\n");
-    scanf("%d", &opcion);
-    getchar();
 
-    switch (opcion) {
-        case 1:
-            printf("Ingrese el número de personas con Covid:\n");
-            scanf("%d", &personas);
-            getchar();
-            ingresarPacientes(pacientes, personas);
-            break;
-        case 2:
-            cantidadpacientes(pacientes, personas);
-            break;
-        case 3:
-            return 0;
-        default:
-            printf("Opcion no válida\n");
-            break;
-    }
+    do {
+        printf("\nEscoge una opción:\n");
+        printf("1. Añadir paciente\n");
+        printf("2. Mostrar cantidad de pacientes en cada región, provincia y ciudad ingresados\n");
+        printf("3. Salir\n");
+        printf("\nEscoge una opción:\n");
+        scanf("%d", &opcion);
+        getchar();
+
+        switch (opcion) {
+            case 1:
+                printf("Ingrese el número de personas con Covid:\n");
+                scanf("%d", &personas);
+                getchar();
+                ingresarPacientes(pacientes, personas);
+                break;
+            case 2:
+                cantidadpacientes(pacientes, personas);
+                break;
+            case 3:
+                printf("Se ha finalizado\n");
+                break;
+            default:
+                printf("Opción no válida\n");
+                break;
+        }
+    } while (opcion != 3);
 
     return 0;
 }
-
-
-
 
