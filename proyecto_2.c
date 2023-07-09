@@ -2,7 +2,7 @@
 #include <ctype.h>
 #include <string.h>
 
-struct paciente{
+struct paciente{// Estructura para almacenar los datos de los pacientes.
     char covid[10];
     char direccion[50];
     char provincia[50];
@@ -11,7 +11,7 @@ struct paciente{
     int edad;
 } paciente[100];
 
-void añadir_paciente(int *i){
+void añadir_paciente(int *i){// Funcion para añadir pacientes.
     printf("\nPaciente %d\n", (*i)+1);
     printf("Ingrese el nombre y apellido: ");
     fgets(paciente[*i].nombre, sizeof(paciente[*i].nombre), stdin);
@@ -34,12 +34,11 @@ void añadir_paciente(int *i){
     (*i)++;
 }
 
-void imprimir_pacientes(int *i){
+void imprimir_pacientes(int *i){// Funcion para imprimir los datos de los pacientes.
     char ch;
-
-    for ( int j = 0 ; j < *i; j++){
+    for ( int j = 0 ; j < *i; j++){// Imprime los datos de los pacientes.
         printf("\n");
-            for (int k = 0; k < 50; k++){
+            for (int k = 0; k < 50; k++){// Imprime el nombre del paciente en mayusculas.
             ch = paciente[j].nombre[k];
             putchar(toupper(ch));
         }
@@ -51,13 +50,13 @@ void imprimir_pacientes(int *i){
     }
 }
 
-void leer_base_datos(void){
+void leer_base_datos(void){// Funcion para leer la base de datos.
     FILE *archivo;
-    archivo = fopen("datos_pacientes.txt", "r");
+    archivo = fopen("datos_pacientes.txt", "r");// Abre el archivo en modo lectura.
     char chx;
-    if (archivo == NULL){
+    if (archivo == NULL){// Si el archivo no existe, imprime un mensaje.
         printf("El archivo no ha sido creado\n");
-    }else{
+    }else{// Si el archivo existe, imprime su contenido.
         do {
         chx = fgetc(archivo);
         printf("%c", chx);
@@ -66,15 +65,14 @@ void leer_base_datos(void){
     fclose(archivo);
 }
 
-void editar_paciente(int *i){
+void editar_paciente(int *i){// Funcion para editar los datos de los pacientes.
     int p_edit;
     for (int j = 0; j < *i; j++){
         printf("%d. %s", j+1, paciente[j].nombre);
     }
     printf("\nIngrese el numero de paciente a editar: ");
-    scanf("%d", &p_edit-1);
-    // p_edit = p_edit - 1;
-        printf("Ingrese el nombre y apellido: ");
+    scanf("%d", &p_edit-1);//lee el numero de paciente a editar
+        printf("Ingrese el nombre y apellido: ");//se reemplazan los datos del paciente
         fgets(paciente[p_edit].nombre, sizeof(paciente[p_edit].nombre), stdin);
         printf("Ingrese la edad: ");
         scanf("%d", &paciente[p_edit].edad);
@@ -94,13 +92,13 @@ void editar_paciente(int *i){
         fgets(paciente[p_edit].region, sizeof(paciente[p_edit].region), stdin);
 }
 
-void eliminar_paciente(int *i){
+void eliminar_paciente(int *i){// Funcion para eliminar los datos de los pacientes.
     int p_delete;
     for (int j = 0; j < *i; j++){
-        printf("%d. %s", j+1, paciente[j].nombre);
+        printf("%d. %s", j+1, paciente[j].nombre);// imprime los nombres de los pacientes que se pueden eliminar
     }
     printf("\nIngrese el numero de paciente a editar: ");
-    scanf("%d", &p_delete-1);
+    scanf("%d", &p_delete-1);//lee el numero de paciente a eliminar
     for (int j = 0; j < *i; j++){
         for (int k = j; k < *i; k++){
             strcpy(paciente[k].nombre, paciente[k+1].nombre);
@@ -110,7 +108,7 @@ void eliminar_paciente(int *i){
             strcpy(paciente[k].provincia, paciente[k+1].provincia);
             strcpy(paciente[k].region, paciente[k+1].region);
         }
-        (*i)--;
+        (*i)--;// disminuye el contador de pacientes
         printf("Paciente eliminado con exito\n");
         return;
         
@@ -118,14 +116,13 @@ void eliminar_paciente(int *i){
     printf("Paciente no encontrado\n");
 }
 
-void guardar(int *i){
+void guardar(int *i){// Funcion para guardar los datos de los pacientes.
 char ch, cap;
     FILE *archivo;
-    archivo = fopen("datos_pacientes.txt", "r");
-    if (archivo == NULL){
-        archivo = fopen("datos_pacientes.txt", "w");
-        for (int j = 0; j < *i; j++){
-
+    archivo = fopen("datos_pacientes.txt", "r");// abre un archivo para lectura
+    if (archivo == NULL){// si el archivo no existe, lo crea
+        archivo = fopen("datos_pacientes.txt", "w");// abre un archivo para escritura
+        for (int j = 0; j < *i; j++){// guarda los datos de los pacientes en el archivo
             fprintf(archivo, "\n");
             for (int k = 0; k < 50; k++){
                 ch = paciente[j].nombre[k];
@@ -138,7 +135,7 @@ char ch, cap;
             fprintf(archivo,"Provincia: %s", paciente[j].provincia);
             fprintf(archivo,"Region: %s", paciente[j].region);
         }
-    }else{
+    }else{// si el archivo existe, agrega los datos de los pacientes al final del archivo
         archivo = fopen("datos_pacientes.txt", "a");
         for (int j = 0; j < *i; j++){
             fprintf(archivo, "\n");
@@ -154,11 +151,11 @@ char ch, cap;
             fprintf(archivo,"Region: %s", paciente[j].region);
         }
     }
-    fclose(archivo);
+    fclose(archivo);// cierra el archivo
     printf("Datos guardados con exito\n");
 }
 
-int menu(int *i){
+int menu(int *i){// Funcion para mostrar el menu de opciones.
     int opcion;
     printf("\n***************** MENU *****************\n");
     printf("1. Añadir paciente\n");
@@ -171,12 +168,12 @@ int menu(int *i){
     printf("\nIngrese una opcion: ");
     scanf("%d", &opcion);
     getchar();
-    switch (opcion){
+    switch (opcion){// switch para ejecutar las funciones segun la opcion ingresada
     case 1:
-        añadir_paciente(i);
+        añadir_paciente(i);// se le pasa la direccion de memoria de la variable i
         break;
     case 2:
-        imprimir_pacientes(i);
+        imprimir_pacientes(i);// se le pasa la direccion de memoria de la variable i
         break;
     case 3:
         leer_base_datos();
@@ -199,9 +196,9 @@ int menu(int *i){
     return 1;
 }
 
-int main(void) {
+int main(void){// Funcion principal.
     int i = 0;
     printf("\n************ CENTRO MEDICO ************\n");
-    while(menu(&i));
+    while(menu(&i));// bucle para mostrar el menu hasta que se ingrese la opcion 7
     return 0;
 }
