@@ -17,7 +17,7 @@ void añadir_paciente(int *i){
     fgets(paciente[*i].nombre, sizeof(paciente[*i].nombre), stdin);
     printf("Ingrese la edad: ");
     scanf("%d", &paciente[*i].edad);
-    getchar(); // To consume '\n' character left by scanf.
+    getchar(); // Para borrar '\n' que queda en el buffer.
     printf("Resultados de Covid p/n: ");
     fgets(paciente[*i].covid, sizeof(paciente[*i].covid), stdin);
     if (strcmp(paciente[*i].covid, "p\n")==0){
@@ -66,87 +66,54 @@ void leer_base_datos(void){
     fclose(archivo);
 }
 
-void exportar_paciente(int *i){
-    int p_export=0;
+void editar_paciente(int *i){
+    int p_edit;
     for (int j = 0; j < *i; j++){
         printf("%d. %s", j+1, paciente[j].nombre);
     }
-    printf("\nIngrese el codigo del paciente a exportar: ");
-    scanf("%d", &p_export);
-    p_export = p_export - 1;
-    for (int j = 0; j < *i; j++){
-        FILE *archivo;
-        archivo = fopen("paciente.txt", "w");
-        if (archivo == NULL){
-            printf("Error al abrir el archivo\n");
+    printf("\nIngrese el numero de paciente a editar: ");
+    scanf("%d", &p_edit-1);
+    // p_edit = p_edit - 1;
+        printf("Ingrese el nombre y apellido: ");
+        fgets(paciente[p_edit].nombre, sizeof(paciente[p_edit].nombre), stdin);
+        printf("Ingrese la edad: ");
+        scanf("%d", &paciente[p_edit].edad);
+        getchar(); // Para borrar '\n' que queda en el buffer.
+        printf("Resultados de Covid p/n: ");
+        fgets(paciente[p_edit].covid, sizeof(paciente[p_edit].covid), stdin);
+        if (strcmp(paciente[p_edit].covid, "p\n")==0){
+            strcpy(paciente[p_edit].covid, "Positivo");
         }else{
-            printf("Archivo abierto correctamente!\n");
-            fprintf(archivo, "*** PACIENTE %d ***\n", p_export+1);
-            fprintf(archivo, "Nombre: %s\n", paciente[p_export].nombre);
-            fprintf(archivo,"Edad: %d\n", paciente[p_export].edad);
-            fprintf(archivo, "Direccion: %s\n", paciente[p_export].direccion);
-            fprintf(archivo, "Provincia: %s\n", paciente[p_export].provincia);
-            fprintf(archivo,"Region: %s\n", paciente[p_export].region);
-            printf("Datos de %s exportados correctamente!\n", paciente[p_export].nombre);
+            strcpy(paciente[p_edit].covid, "Negativo");
         }
-    }
-}
-
-void editar_paciente(int *i){
-    char nombre[50];
-    printf("Ingrese el nombre del paciente: ");
-    fgets(nombre, sizeof(nombre), stdin);
-    for (int j = 0; j < *i; j++){
-        if (strcmp(nombre, paciente[j].nombre)==0){
-            printf("\n*** %s ***\n", paciente[j].nombre);
-            printf("Covid: %s", paciente[j].covid);
-            printf("Edad: %d\n", paciente[j].edad);
-            printf("Direccion: %s", paciente[j].direccion);
-            printf("Provincia: %s", paciente[j].provincia);
-            printf("Region: %s", paciente[j].region);
-            printf("\nIngrese el nombre y apellido: ");
-            fgets(paciente[j].nombre, sizeof(paciente[j].nombre), stdin);
-            printf("Ingrese la edad: ");
-            scanf("%d", &paciente[j].edad);
-            getchar(); // To consume '\n' character left by scanf.
-            printf("Resultados de Covid p/n: ");
-            fgets(paciente[j].covid, sizeof(paciente[j].covid), stdin);
-            if (strcmp(paciente[j].covid, "p\n")==0){
-                strcpy(paciente[j].covid, "Positivo");
-            }else{
-                strcpy(paciente[j].covid, "Negativo");
-            }
-            printf("Ingrese la direccion: ");
-            fgets(paciente[j].direccion, sizeof(paciente[j].direccion), stdin);
-            printf("Ingrese la provincia: ");
-            fgets(paciente[j].provincia, sizeof(paciente[j].provincia), stdin);
-            printf("Ingrese la region: ");
-            fgets(paciente[j].region, sizeof(paciente[j].region), stdin);
-            printf("Datos editados con exito\n");
-            return;
-        }
-    }
-    printf("Paciente no encontrado\n");
+        printf("Ingrese la direccion: ");
+        fgets(paciente[p_edit].direccion, sizeof(paciente[p_edit].direccion), stdin);
+        printf("Ingrese la provincia: ");
+        fgets(paciente[p_edit].provincia, sizeof(paciente[p_edit].provincia), stdin);
+        printf("Ingrese la region: ");
+        fgets(paciente[p_edit].region, sizeof(paciente[p_edit].region), stdin);
 }
 
 void eliminar_paciente(int *i){
-    char nombre[50];
-    printf("Ingrese el nombre del paciente: ");
-    fgets(nombre, sizeof(nombre), stdin);
+    int p_delete;
     for (int j = 0; j < *i; j++){
-        if (strcmp(nombre, paciente[j].nombre)==0){
-            for (int k = j; k < *i; k++){
-                strcpy(paciente[k].nombre, paciente[k+1].nombre);
-                strcpy(paciente[k].covid, paciente[k+1].covid);
-                paciente[k].edad = paciente[k+1].edad;
-                strcpy(paciente[k].direccion, paciente[k+1].direccion);
-                strcpy(paciente[k].provincia, paciente[k+1].provincia);
-                strcpy(paciente[k].region, paciente[k+1].region);
-            }
-            (*i)--;
-            printf("Paciente eliminado con exito\n");
-            return;
+        printf("%d. %s", j+1, paciente[j].nombre);
+    }
+    printf("\nIngrese el numero de paciente a editar: ");
+    scanf("%d", &p_delete-1);
+    for (int j = 0; j < *i; j++){
+        for (int k = j; k < *i; k++){
+            strcpy(paciente[k].nombre, paciente[k+1].nombre);
+            strcpy(paciente[k].covid, paciente[k+1].covid);
+            paciente[k].edad = paciente[k+1].edad;
+            strcpy(paciente[k].direccion, paciente[k+1].direccion);
+            strcpy(paciente[k].provincia, paciente[k+1].provincia);
+            strcpy(paciente[k].region, paciente[k+1].region);
         }
+        (*i)--;
+        printf("Paciente eliminado con exito\n");
+        return;
+        
     }
     printf("Paciente no encontrado\n");
 }
@@ -197,11 +164,10 @@ int menu(int *i){
     printf("1. Añadir paciente\n");
     printf("2. Ver datos de todos los pacientes recientemente ingresados\n");
     printf("3. Leer base de datos de pacientes\n");
-    printf("4. Exportar datos de un paciente en .txt\n");
-    printf("5. Editar datos de paciente\n");
-    printf("6. Eliminar paciente\n");
-    printf("7. Guardar en base de datos\n");
-    printf("8. Salir\n");
+    printf("4. Editar datos de paciente\n");
+    printf("5. Eliminar paciente\n");
+    printf("6. Guardar en base de datos\n");
+    printf("7. Salir\n");
     printf("\nIngrese una opcion: ");
     scanf("%d", &opcion);
     getchar();
@@ -216,18 +182,15 @@ int menu(int *i){
         leer_base_datos();
         break;
     case 4:
-        exportar_paciente(i);
-        break;
-    case 5:
         editar_paciente(i);
         break;
-    case 6:
+    case 5:
         eliminar_paciente(i);
         break;
-    case 7:
+    case 6:
         guardar(i);
         break;
-    case 8:
+    case 7:
         return 0;
     default:
         printf("Opcion no valida\n");
