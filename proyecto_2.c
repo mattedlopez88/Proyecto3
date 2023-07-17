@@ -12,8 +12,8 @@ struct Datos {// Estructura para almacenar los datos de los pacientes.
 }paciente[100];
 
 
-void añadir_paciente(int *i){// Funcion para añadir pacientes.
-    struct Datos *pacientePtr[*i];
+void aniadir_paciente(int *i){// Funcion para aniadir pacientes.
+    struct Datos *pacientePtr[100];
     pacientePtr[*i] = &paciente[*i];
     printf("\nPaciente %d\n", (*i)+1);
     printf("Ingrese el nombre y apellido: ");
@@ -70,8 +70,7 @@ void leer_base_datos(void){// Funcion para leer la base de datos.
 }
 
 void editar_paciente(int *i){// Funcion para editar los datos de los pacientes.
-    struct Datos *pacientePtr[*i];
-    pacientePtr[*i] = &paciente[*i];
+
     int p_edit;
     for (int j = 0; j < *i; j++){
         printf("%d. %s", j+1, paciente[j].nombre);
@@ -103,8 +102,7 @@ void editar_paciente(int *i){// Funcion para editar los datos de los pacientes.
 }
 
 void eliminar_paciente(int *i){// Funcion para eliminar los datos de los pacientes.
-    struct Datos *pacientePtr[*i];
-    pacientePtr[*i] = &paciente[*i];
+
     int p_delete;
     printf("\n");
     for (int j = 0; j < *i; j++){
@@ -166,7 +164,7 @@ void guardar(int *i){// Funcion para guardar los datos de los pacientes.
 int menu(int *i){// Funcion para mostrar el menu de opciones.
     int opcion;
     printf("\n***************** MENU *****************\n");
-    printf("1. Añadir paciente\n");
+    printf("1. Aniadir paciente\n");
     printf("2. Ver datos de todos los pacientes recientemente ingresados\n");
     printf("3. Leer base de datos de pacientes\n");
     printf("4. Editar datos de paciente\n");
@@ -178,7 +176,7 @@ int menu(int *i){// Funcion para mostrar el menu de opciones.
     getchar();
     switch (opcion){// switch para ejecutar las funciones segun la opcion ingresada
     case 1:
-        añadir_paciente(i);// se le pasa la direccion de memoria de la variable i
+        aniadir_paciente(i);// se le pasa la direccion de memoria de la variable i
         break;
     case 2:
         imprimir_pacientes(i);// se le pasa la direccion de memoria de la variable i
